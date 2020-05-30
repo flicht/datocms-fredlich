@@ -4,6 +4,13 @@ import Masonry from 'react-masonry-component'
 import Img from 'gatsby-image'
 import Layout from "../components/layout"
 
+
+const dateConverter = (dateString) => {
+  let ar = dateString.split("-");
+  let newDate = ar[2] + "-" + ar[1] + "-" + ar[0];
+  return newDate;
+}
+
 const IndexPage = ({ data }) => (
   <Layout>
     <Masonry className="showcase">
@@ -17,6 +24,9 @@ const IndexPage = ({ data }) => (
               <h6 className="card__title">
                 <Link to={`/works/${work.slug}`}>{work.title}</Link>
               </h6>
+              <div className="card__date">
+                <p>{dateConverter(work.creationDate)}</p>
+              </div>
               <div className="card__description">
                 <p>{work.excerpt}</p>
               </div>
@@ -39,6 +49,7 @@ export const query = graphql`
           title
           slug
           excerpt
+          creationDate
           coverImage {
             fluid(maxWidth: 450, imgixParams: { fm: "jpg", auto: "compress" }) {
               ...GatsbyDatoCmsSizes
