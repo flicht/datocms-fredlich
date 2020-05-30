@@ -6,9 +6,11 @@ import Layout from "../components/layout"
 
 
 const dateConverter = (dateString) => {
-  let ar = dateString.split("-");
-  let newDate = ar[2] + "-" + ar[1] + "-" + ar[0];
-  return newDate;
+  if (dateString) {
+    let ar = dateString.split("-");
+    let newDate = ar[2] + "-" + ar[1] + "-" + ar[0];
+    return newDate;
+  }
 }
 
 const IndexPage = ({ data }) => (
@@ -42,7 +44,7 @@ export default IndexPage
 
 export const query = graphql`
   query IndexQuery {
-    allDatoCmsWork(sort: { fields: [position], order: ASC }) {
+    allDatoCmsWork(sort: {order: DESC, fields: creationDate}) {
       edges {
         node {
           id
