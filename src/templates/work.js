@@ -26,8 +26,8 @@ export default ({ data }) => (
           }}
         />
         <div className="sheet__gallery">
-          <div>
-            <Img fluid={data.datoCmsWork.coverImage.fluid} />
+          <div className="sheet__image">
+            <Img fluid={data.datoCmsWork.coverImage.fluid} imgStyle={{objectFit: "contain", objectPosition: "center left"}}/>
           </div>
         </div>
       </div>
