@@ -27,7 +27,6 @@ export default ({ data }) => (
         />
         <div className="sheet__gallery">
           <div>
-            FRED
             <Img fluid={data.datoCmsWork.coverImage.fluid} />
           </div>
         </div>
