@@ -1,10 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { graphql } from 'gatsby'
 import { HelmetDatoCms } from 'gatsby-source-datocms'
 import Img from 'gatsby-image'
 import Layout from "../components/layout"
+import ReactGA from 'react-ga';
 
-const About = ({ data: { about } }) => (
+
+const About = ({ data: { about } }) => {
+
+  useEffect(() => {
+    ReactGA.initialize('UA-184050613-1')
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, [])
+
+  return(
   <Layout>
     <article className="sheet">
       <HelmetDatoCms seo={about.seoMetaTags} />
@@ -22,8 +31,8 @@ const About = ({ data: { about } }) => (
         />
       </div>
     </article>
-  </Layout>
-)
+  </Layout>)
+}
 
 export default About
 

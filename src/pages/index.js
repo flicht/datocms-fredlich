@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, graphql } from 'gatsby';
 import Masonry from 'react-masonry-component';
 import Img from 'gatsby-image';
 import Layout from '../components/layout';
+import ReactGA from 'react-ga';
+
 
 const dateConverter = (dateString) => {
   if (dateString) {
@@ -12,7 +14,15 @@ const dateConverter = (dateString) => {
   }
 };
 
-const IndexPage = ({ data }) => (
+const IndexPage = ({ data }) => {
+
+  useEffect(() => {
+    ReactGA.initialize("UA-184050613-1");
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, [])
+
+
+  return(
   <Layout>
     <Masonry className='showcase'>
       {data.allDatoCmsWork.edges.map(({ node: work }) => (
@@ -37,7 +47,7 @@ const IndexPage = ({ data }) => (
       ))}
     </Masonry>
   </Layout>
-);
+)};
 
 export default IndexPage;
 

@@ -82,7 +82,7 @@ const TemplateWrapper = ({ children }) => {
                 ))}
               </p>
               <div className='sidebar__copyright'>
-                {data.datoCmsHome.copyright}
+                {`© ${new Date().getFullYear()}`}
               </div>
             </div>
           </div>
