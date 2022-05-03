@@ -18,7 +18,7 @@
     "react-helmet": "^5.2.0",
     "react-masonry-component": "^6.2.1",
     "react-slick": "^0.25.2",
-    "sass": "^1.50.1",
+    "sass": "^1.51.0",
     "slick-carousel": "^1.8.1"
   },
   "keywords": [
