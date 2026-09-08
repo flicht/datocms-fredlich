@@ -1,53 +1,40 @@
-# Gatsby Portfolio Website
+# Fred Lich portfolio
 
-This repo contains a static website written with [GatsbyJS](https://www.gatsbyjs.org/), integrated with content coming from [DatoCMS](https://www.datocms.com).
+Static portfolio site built with [Gatsby 5](https://www.gatsbyjs.com/) and content from [DatoCMS](https://www.datocms.com).
 
 ![Preview](preview.png)
 
-[See the live demo](https://demo-datocms-gatsby.netlify.com/)
+## Requirements
 
-If you want to use try this out yourself, you first need to set up a project on DatoCMS which will host your data.
+- Node 20 (see `.nvmrc`)
+- Yarn 1
+- A read-only DatoCMS API token for the site
 
-You can [sign up for a free account](https://dashboard.datocms.com/signup) and then you can simply click this button:
-
-[![Deploy with DatoCMS](https://dashboard.datocms.com/deploy/button.svg)](https://dashboard.datocms.com/projects/new-from-template/static-website/gatsby-portfolio)
-
-## Repo usage
-
-First, install the dependencies of this project:
+## Setup
 
 ```
 yarn install
+echo 'DATO_API_TOKEN=your-token' > .env
 ```
 
-Add an `.env` file containing the read-only API token of your DatoCMS site:
+## Commands
 
-```
-echo 'DATO_API_TOKEN=abc123' >> .env
-```
+| Command        | What it does                                 |
+| -------------- | -------------------------------------------- |
+| `yarn develop` | Development server with live reload          |
+| `yarn build`   | Production build into `public/`              |
+| `yarn serve`   | Serve the production build locally           |
+| `yarn clean`   | Clear the Gatsby cache                       |
+| `yarn format`  | Format source files with Prettier            |
 
-Then, to run this website in development mode (with live-reload):
+## Structure
 
-```
-yarn develop
-```
+- `src/pages/index.js` renders the masonry grid of works.
+- `src/templates/work.js` renders a single work; pages are created in `gatsby-node.js` from every `DatoCmsWork` slug.
+- `src/pages/about.js` renders the about page from `DatoCmsAboutPage`.
+- `src/components/layout.js` holds the sidebar, mobile header, and site-wide SEO tags.
+- `src/styles/` contains the Sass, entry point `index.sass`.
 
-To build the final, production ready static website:
+## Content models
 
-```
-yarn build
-```
-
-The final result will be saved in the `public` directory.
-
-## About
-
-The goal of this project is to show how easily you can create static sites using the content (text, images, links, etc.) stored on [DatoCMS](https://www.datocms.com). This project is configured to fetch data from a specific administrative area using [the API DatoCMS provides](https://www.datocms.com/docs/content-management-api).
-
-You can find further information about how to integrate DatoCMS with Gatsby in [our documentation](https://www.datocms.com/docs/static-generators/gatsbyjs).
-
-This websites uses:
-
-- [Yarn](https://yarnpkg.com/) as package manager;
-- [GatsbyJS](https://github.com/gatsbyjs/gatsby) as website generator;
-- [gatsby-source-datocms](https://github.com/datocms/gatsby-source-datocms) to integrate the website with DatoCMS.
+The site expects these DatoCMS models: `Site` (global SEO and favicon), `Home` (intro text and SEO), `Work` (title, slug, excerpt, creation date, cover image, gallery, description), `About page` (title, subtitle, photo, bio), and `Social profile` (profile type, URL, position).

@@ -1,44 +1,33 @@
-import React, { useEffect } from 'react';
-import { Link, graphql } from 'gatsby';
-import Masonry from 'react-masonry-component';
-import Img from 'gatsby-image';
-import Layout from '../components/layout';
-import ReactGA from 'react-ga';
+import React from 'react'
+import { Link, graphql } from 'gatsby'
+import Masonry from 'react-masonry-component'
+import { GatsbyImage } from 'gatsby-plugin-image'
+import Layout from '../components/layout'
 
-
-const dateConverter = (dateString) => {
-  if (dateString) {
-    const ar = dateString.split('-');
-    const newDate = ar[2] + '-' + ar[1] + '-' + ar[0];
-    return newDate;
-  }
-};
-
-const IndexPage = ({ data }) => {
-
-  useEffect(() => {
-    ReactGA.initialize("UA-184050613-1");
-    ReactGA.pageview(window.location.pathname + window.location.search);
-  }, [])
-
-
-  return(
+const IndexPage = ({ data }) => (
   <Layout>
-    <Masonry className='showcase'>
-      {data.allDatoCmsWork.edges.map(({ node: work }) => (
-        <div key={work.id} className='showcase__item'>
-          <figure className='card'>
-            <Link to={`/works/${work.slug}`} className='card__image'>
-              <Img fluid={work.coverImage.fluid} />
-            </Link>
-            <figcaption className='card__caption'>
-              <h6 className='card__title'>
+    <Masonry className="showcase">
+      {data.allDatoCmsWork.nodes.map((work) => (
+        <div key={work.id} className="showcase__item">
+          <figure className="card">
+            {work.coverImage?.gatsbyImageData && (
+              <Link to={`/works/${work.slug}`} className="card__image">
+                <GatsbyImage
+                  image={work.coverImage.gatsbyImageData}
+                  alt={work.coverImage.alt || work.title}
+                />
+              </Link>
+            )}
+            <figcaption className="card__caption">
+              <h6 className="card__title">
                 <Link to={`/works/${work.slug}`}>{work.title}</Link>
               </h6>
-              <div className='card__date'>
-                <p>{dateConverter(work.creationDate)}</p>
-              </div>
-              <div className='card__description'>
+              {work.creationDate && (
+                <div className="card__date">
+                  <p>{work.creationDate}</p>
+                </div>
+              )}
+              <div className="card__description">
                 <p>{work.excerpt}</p>
               </div>
             </figcaption>
@@ -47,27 +36,28 @@ const IndexPage = ({ data }) => {
       ))}
     </Masonry>
   </Layout>
-)};
+)
 
-export default IndexPage;
+export default IndexPage
 
 export const query = graphql`
   query IndexQuery {
-    allDatoCmsWork(sort: {order: DESC, fields: creationDate}) {
-      edges {
-        node {
-          id
-          title
-          slug
-          excerpt
-          creationDate
-          coverImage {
-            fluid(maxWidth: 450, imgixParams: { fm: "jpg", auto: "compress" }) {
-              ...GatsbyDatoCmsSizes
-            }
-          }
+    allDatoCmsWork(sort: { creationDate: DESC }) {
+      nodes {
+        id
+        title
+        slug
+        excerpt
+        creationDate(formatString: "DD-MM-YYYY")
+        coverImage {
+          alt
+          gatsbyImageData(
+            width: 450
+            placeholder: BLURRED
+            imgixParams: { fm: "jpg", auto: "compress" }
+          )
         }
       }
     }
   }
-`;
+`
